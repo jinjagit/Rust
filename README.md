@@ -1,5 +1,5 @@
 # Rust
-Rust studies and info
+Rust studies and info.
 
 ### Useful links:
 * [The Book](https://doc.rust-lang.org/book/) 
