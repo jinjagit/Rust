@@ -11,4 +11,6 @@ Rust studies and info
 * [Crate image - native rust implementations of image encoders and decoders and basic image manipulation functions](https://docs.rs/image/0.23.8/image/)  
 
 ### Useful commands:
-`$ rustfmt filename` (filename including extension)  
+`$ rustfmt filename.rs` format file  
+`$ rustc filenamers` compile file  
+`$ .\filename` run file  
