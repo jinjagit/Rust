@@ -10,6 +10,7 @@ Rust studies and info.
 * [Rayon - a data-parallelism library for Rust](https://github.com/rayon-rs/rayon)  
 * [Crate image - native rust implementations of image encoders and decoders and basic image manipulation functions](https://docs.rs/image/0.23.8/image/)  
 * [Crate noise - A procedural noise generation library for Rust](https://docs.rs/noise/0.6.0/noise/)  
+* [Fast, SIMD accelerated noise generation functions](https://docs.rs/simdnoise/3.1.6/simdnoise/)  
 
 ### Useful commands:
 `$ rustfmt filename.rs` format file  
