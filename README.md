@@ -12,5 +12,5 @@ Rust studies and info
 
 ### Useful commands:
 `$ rustfmt filename.rs` format file  
-`$ rustc filenamers` compile file  
+`$ rustc filename.rs` compile file  
 `$ .\filename` run file  
