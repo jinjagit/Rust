@@ -19,3 +19,4 @@ Rust studies and info.
 `$ cargo new projectname`  
 `$ cargo build`   
 `$ cargo build --release`  
+`$ cargo doc --open` build documentation provided by all dependencies locally and open it in your browser.  
