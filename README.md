@@ -12,6 +12,7 @@ Rust studies and info.
 * [Crate noise - A procedural noise generation library for Rust](https://docs.rs/noise/0.6.0/noise/)  
 * [Worldgen - lacunarity, octaves, persistance, etc. for noise](https://docs.rs/worldgen/0.3.2/i686-pc-windows-msvc/worldgen/noise/perlin/struct.Lacunarity.html)  
 * [Fast, SIMD accelerated noise generation functions](https://docs.rs/simdnoise/3.1.6/simdnoise/)  
+* [Rust Video Tutorials Series; last 3 videos = 3 hrs of 3D Graphics in browser](https://www.youtube.com/playlist?list=PLLqEtX6ql2EyPAZ1M2_C0GgVd4A-_L4_5)  
 
 ### Useful commands:
 `$ rustfmt filename.rs` format file  
