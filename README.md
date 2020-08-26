@@ -14,6 +14,7 @@ Rust studies and info.
 * [Fast, SIMD accelerated noise generation functions](https://docs.rs/simdnoise/3.1.6/simdnoise/)  
 * [Rust Video Tutorials Series; last 3 videos = 3 hrs of 3D Graphics in browser](https://www.youtube.com/playlist?list=PLLqEtX6ql2EyPAZ1M2_C0GgVd4A-_L4_5)  
 *  [Module basics](https://fasterthanli.me/articles/rust-modules-vs-files)  
+* [Rust releases for single and multiple targets with GitHub Actions](https://mateuscosta.me/rust-releases-with-github-actions)  
 
 ### Useful commands:
 `$ rustfmt filename.rs` format file  
