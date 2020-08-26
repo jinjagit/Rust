@@ -8,6 +8,29 @@ fn main() {
     for val in v1_iter {
         println!("Got: {}", val);
     }
+
+
+    // Using filter. See last test for more details. Included here just to
+    // make the 'unused' warning go away!
+
+    let shoes = vec![
+                Shoe {
+                    size: 10,
+                    style: String::from("sneaker"),
+                },
+                Shoe {
+                    size: 13,
+                    style: String::from("sandal"),
+                },
+                Shoe {
+                    size: 10,
+                    style: String::from("boot"),
+                },
+            ];
+
+    let in_my_size = shoes_in_my_size(shoes, 10);
+
+    println!("shoes in my size {:?}", in_my_size);
 } 
 
 // Using the 'next' method from the Iterator Trait (standard library)
