@@ -24,6 +24,7 @@ Rust studies and info.
 `$ cargo new projectname`  
 `$ cargo build`   
 `$ cargo build --release`  
-`$ cargo doc --open` locally build documentation provided by all dependencies and open in browser.  
+`$ cargo doc --open` locally build docs for all dependencies and open in browser  
 `$ cargo clean --doc` remove docs created by previous command  
 `$ cargo new --lib libraryname` create a library    
+`$ cargo fmt` format project  
