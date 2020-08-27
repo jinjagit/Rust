@@ -15,6 +15,7 @@ Rust studies and info.
 * [Rust Video Tutorials Series; last 3 videos = 3 hrs of 3D Graphics in browser](https://www.youtube.com/playlist?list=PLLqEtX6ql2EyPAZ1M2_C0GgVd4A-_L4_5)  
 *  [Module basics](https://fasterthanli.me/articles/rust-modules-vs-files)  
 * [Rust releases for single and multiple targets with GitHub Actions](https://mateuscosta.me/rust-releases-with-github-actions)  
+* [Rust compile to WASM - Mozilla Guide](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)  
 
 ### Useful commands:
 `$ rustfmt filename.rs` format file  
