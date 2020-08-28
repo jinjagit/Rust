@@ -16,6 +16,7 @@ Rust studies and info.
 *  [Module basics](https://fasterthanli.me/articles/rust-modules-vs-files)  
 * [Rust releases for single and multiple targets with GitHub Actions](https://mateuscosta.me/rust-releases-with-github-actions)  
 * [Rust compile to WASM - Mozilla Guide](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)  
+* [Strings](https://www.ameyalokare.com/rust/2017/10/12/rust-str-vs-String.html)  
 
 ### Useful commands:
 `$ rustfmt filename.rs` format file  
