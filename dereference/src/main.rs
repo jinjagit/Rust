@@ -1,3 +1,24 @@
+use std::ops::Deref;
+
+// The Deref trait, provided by the standard library, requires us to implement
+// one method named deref that borrows self and returns a reference to the inner
+// data.
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &T {
+        &self.0
+    }
+}
+
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
+    }
+}
+
 fn main() {
     let x = 5;
     let y = &x;
@@ -11,4 +32,11 @@ fn main() {
 
     assert_eq!(5, x);
     assert_eq!(5, *y);
+
+    // Our MyBox<T> type can’t be dereferenced because we haven’t implemented
+    // that ability on our type. We have enabled dereferencing with the
+    // * operator by implementing the Deref trait (see impl, above).
+    let z = MyBox::new(x);
+
+    println!("z = {}", *z);
 }
