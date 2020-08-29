@@ -17,6 +17,7 @@ Rust studies and info.
 * [Rust releases for single and multiple targets with GitHub Actions](https://mateuscosta.me/rust-releases-with-github-actions)  
 * [Rust compile to WASM - Mozilla Guide](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)  
 * [Strings](https://www.ameyalokare.com/rust/2017/10/12/rust-str-vs-String.html)  
+* [The Rustonomicon - The Dark Arts of Unsafe Rust](https://doc.rust-lang.org/nomicon/index.html)  
 
 ### Useful commands:
 `$ rustfmt filename.rs` format file  
