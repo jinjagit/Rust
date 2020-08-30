@@ -44,6 +44,6 @@ fn main() {
     c.add(33);
     c.add(57);
 
-    println!("c.list = {:?}, c.ave = {}", c.list, c.average);
-    // => c.list = [33, 57], c.ave = 45
+    println!("c.list = {:?}, c.average = {}", c.list, c.average);
+    // => c.list = [33, 57], c.average = 45
 }
