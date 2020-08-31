@@ -13,10 +13,8 @@ fn fib(n: u8) { // max arg = 185
         b = a + b;
         a = temp;
 
-        print!("{} ", b);
+        println!("{}", b);
 
         counter -= 1;
     }
-
-    println!("")
 }
