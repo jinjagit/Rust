@@ -1,12 +1,12 @@
 fn main() {
-    fib(9);
+    fib(185);
 }
 
-fn fib(n: u16) {
+fn fib(n: u8) { // max arg = 185
     let mut counter = n;
-    let mut a: u32 = 0;
-    let mut b: u32 = 1;
-    let mut temp: u32;
+    let mut a: u128 = 0;
+    let mut b: u128 = 1;
+    let mut temp: u128;
 
     while counter != 0 {
         temp = b;
