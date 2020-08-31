@@ -23,7 +23,7 @@ Rust studies and info.
 ### Useful commands:
 `$ rustfmt filename.rs` format file  
 `$ rustc filename.rs` compile file  
-`$ .\filename` run file  
+`$ ./filename` run file  
 `$ cargo new projectname`  
 `$ cargo build`   
 `$ cargo build --release`  

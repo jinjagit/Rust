@@ -128,7 +128,7 @@ fn main() {
 
     match msg {
         Message2::Hello {
-            id: id_variable @ 3..=7,
+            id: id_variable @ 3..=7, // inclusive range
         } => println!("Found an id in range: {}", id_variable),
         Message2::Hello { id: 10..=12 } => {
             println!("Found an id in another range")
