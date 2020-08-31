@@ -2,7 +2,7 @@ fn main() {
     fib(185);
 }
 
-fn fib(n: u8) { // max arg = 185
+fn fib(n: u8) { // max n = 185
     let mut counter = n;
     let mut a: u128 = 0;
     let mut b: u128 = 1;
