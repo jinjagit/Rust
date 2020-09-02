@@ -8,6 +8,7 @@ Rust studies and info.
 * [The Rustonomicon - The Dark Arts of Unsafe Rust](https://doc.rust-lang.org/nomicon/index.html)  
 * [The Crust of Rust - video tutorials](https://www.youtube.com/watch?v=s19G6n0UjsM)  
 * [Rust & WebAssembly Book](https://rustwasm.github.io/book/introduction.html)  
+* [A Rust Introduction to WebAssembly](https://www.telerik.com/blogs/rust-introduction-to-webassembly)  
 * [Hybrid Applications with Webpack](https://rustwasm.github.io/docs/wasm-pack/tutorials/hybrid-applications-with-webpack/index.html)  
 * [Minimal Rust web-assembly example](https://www.hellorust.com/demos/add/index.html)  
 * [Get Started with Rust, WebAssembly, and Webpack](https://medium.com/@ianjsikes/get-started-with-rust-webassembly-and-webpack-58d28e219635)  
