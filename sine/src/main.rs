@@ -7,7 +7,7 @@ fn main() {
     println!("x = {}", x);
 
     let elapsed = start.elapsed();
-    println!("{:?}", elapsed.as_millis());
+    println!("{:?} ms", elapsed.as_millis());
 }
 
 fn sine_series(n: i32) -> f32 {
