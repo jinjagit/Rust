@@ -3,6 +3,7 @@ Rust studies and info.
 
 ### Useful links:
 * [The Book](https://doc.rust-lang.org/book/) 
+* [A Gentle Introduction to Rust](https://stevedonovan.github.io/rust-gentle-intro/print.html)  
 * [Documentation](https://docs.rs/)  
 * [Rust Community](https://www.rust-lang.org/community)  
 * [The Rustonomicon - The Dark Arts of Unsafe Rust](https://doc.rust-lang.org/nomicon/index.html)  
