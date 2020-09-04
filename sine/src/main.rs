@@ -23,7 +23,7 @@ fn sine_series(n: i32) -> f32 {
     result
 }
 
-// => 122 - 127 ms to run on my PC (as release build)
+// => 125 ms to run on my PC (as release build)
 // takes about 196 ms in Firefox as wasm (on same PC) = 1.57 times slower
 // but often waaaay slower in other browsers, but usually still significantly
 // faster than pure JS benchmark in respective browser(s).
