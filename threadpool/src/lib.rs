@@ -1,7 +1,8 @@
-use std::sync::mpsc::{channel, Sender}; // {mpsc, Arc, Mutex};
+// from tutorial: https://www.youtube.com/watch?v=2mwwYbBRJSo
+
+use std::sync::mpsc::{channel, Sender};
 use std::sync::Mutex;
 use std::sync::Arc;
-//use std::thread;
 
 pub struct ThreadPool {
     _handles: Vec<std::thread::JoinHandle<()>>,
