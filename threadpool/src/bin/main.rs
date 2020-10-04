@@ -1,6 +1,6 @@
-// My, very naive, implementation of using a thread-pool to share work in parallel
+// My, very naive, implementation of using a thread-pool to share work in parallel.
 // Uses the thread-pool in lib.rs (from https://www.youtube.com/watch?v=2mwwYbBRJSo)
-// Finds sum(sine(1), sine(2), sine(3) ... sine(n)), where n = 50000000
+// Finds sum(sine(1), sine(2), sine(3) ... sine(n)), where n = 50000000.
 
 extern crate num_cpus;
 
@@ -17,60 +17,62 @@ fn main() {
     println!("number of logical cores available: {}\n", num_cores);
     println!("Find sum(sine(1), sine(2), sine(3) ... sine(n)), where n = 50000000\n");
 
-  loop { // Infinte loop: Ctrl-C to break & exit.
-      let num_threads = get_num_threads();
+    // Infinte loop: Ctrl-C to break & exit.
+    loop {
+        // Get number of threads in thread-pool from user input.
+        let num_threads = get_num_threads();
 
-      let start_time = Instant::now();
+        let start_time = Instant::now();
 
-      let thread_counter = Arc::new(AtomicU32::new(0));
-      let thread_counter_clone = thread_counter.clone();
-      let completed_counter = Arc::new(AtomicU32::new(0));
-      let completed_clone = completed_counter.clone();
+        let thread_counter = Arc::new(AtomicU32::new(0));
+        let thread_counter_clone = thread_counter.clone();
+        let completed_counter = Arc::new(AtomicU32::new(0));
+        let completed_clone = completed_counter.clone();
 
-      let sum: Arc<Mutex<f64>> = Arc::new(Mutex::new(0.0));
-      let sum_clone = sum.clone();
+        let sum: Arc<Mutex<f64>> = Arc::new(Mutex::new(0.0));
+        let sum_clone = sum.clone();
 
-      // Set up a thread-pool with the number of threads specified by user input.
-      let pool = ThreadPool::new(num_threads as u8);
+        // Set up a thread-pool with the number of threads specified by user input.
+        let pool = ThreadPool::new(num_threads as u8);
 
-      // Closure containing the work to be done in each thread
-      let foo = move || {
-          let operation_block = thread_counter_clone.fetch_add(1, Ordering::SeqCst);
-          let default_iters_per_thread = 50000000 / num_threads;
-          let start = default_iters_per_thread * operation_block;
-          let mut result: f64 = 0.0;
+        // Closure containing the work to be done in each thread.
+        let foo = move || {
+            let operation_block = thread_counter_clone.fetch_add(1, Ordering::SeqCst);
+            let default_iters_per_thread = 50000000 / num_threads;
+            let start = default_iters_per_thread * operation_block;
+            let mut result: f64 = 0.0;
 
-          if operation_block == num_threads - 1 {
-              for i in start + 1..50000001 {
-                  result = result + (i as f64).sin();
-              }
-          } else {
-              for i in start + 1..(default_iters_per_thread * (operation_block + 1)) + 1 {
-                  result = result + (i as f64).sin();
-              }
-          }
+            if operation_block == num_threads - 1 {
+                for i in start + 1..50000001 {
+                    result = result + (i as f64).sin();
+                }
+            } else {
+                for i in start + 1..(default_iters_per_thread * (operation_block + 1)) + 1 {
+                    result = result + (i as f64).sin();
+                }
+            }
 
-          let mut sum = sum_clone.lock().unwrap();
-          *sum += result;
-          completed_clone.fetch_add(1, Ordering::SeqCst);
-      };
+            let mut sum = sum_clone.lock().unwrap();
+            *sum += result;
+            completed_clone.fetch_add(1, Ordering::SeqCst);
+        };
 
-      // Now start the threads, passing in the closure containing the work for each
-      for _ in 0..num_threads {
-          pool.execute(foo.clone());
-      }
+        // Now start the threads, passing in the closure containing the work for each.
+        for _ in 0..num_threads {
+            pool.execute(foo.clone());
+        }
 
-      let mut completed_threads_count = completed_counter.load(Ordering::SeqCst);
+        let mut completed_threads_count = completed_counter.load(Ordering::SeqCst);
 
-      // Loop in main thread while all spawned threads not completed.
-      while completed_threads_count < num_threads {
-          completed_threads_count = completed_counter.load(Ordering::SeqCst);
-      }
-      
-      let elapsed = start_time.elapsed();
+        // Loop in main thread while all spawned threads not completed.
+        while completed_threads_count < num_threads {
+            completed_threads_count = completed_counter.load(Ordering::SeqCst);
+        }
 
-      println!("sum = {:.6}", sum.lock().unwrap());
-      println!("{:?} ms\n", elapsed.as_millis());
+        let elapsed = start_time.elapsed();
+
+        println!("sum = {:.6}", sum.lock().unwrap());
+        println!("{:?} ms\n", elapsed.as_millis());
     }
 }
 
@@ -98,11 +100,13 @@ fn get_num_threads() -> u32 {
         let input = get_input();
 
         i = match input.parse::<u32>() {
-            Ok(i) => if i > 0 && i < 13 {
-              i
-            } else {
-              println!("\nERROR! Try again");
-              127
+            Ok(i) => {
+                if i > 0 && i < 13 {
+                    i
+                } else {
+                    println!("\nERROR! Try again");
+                    127
+                }
             }
             Err(_) => {
                 println!("\nERROR! Try again");
