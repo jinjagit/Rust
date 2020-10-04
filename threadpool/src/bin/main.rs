@@ -19,7 +19,7 @@ fn main() {
 
     // Infinte loop: Ctrl-C to break & exit.
     loop {
-        // Get number of threads in thread-pool from user input.
+        // Get number of threads for thread-pool from user input.
         let num_threads = get_num_threads();
 
         let start_time = Instant::now();
