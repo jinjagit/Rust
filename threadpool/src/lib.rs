@@ -21,9 +21,9 @@ impl ThreadPool {
                     Ok(work) => work,
                     Err(_) => break,
                 };
-                println!("start");
+                // println!("start");
                 work();
-                println!("finish");
+                // println!("finish");
             });
         _handles.push(handle);
         }
@@ -56,7 +56,6 @@ mod tests {
         pool.execute(foo);
         std::thread::sleep(std::time::Duration::from_secs(1));
         assert_eq!(nref.load(Ordering::SeqCst), 2);
-        // let c = pool.execute(|| sin(9.3)); // Can we get results back from closure like this? I doubt it!
     }
 }
 
