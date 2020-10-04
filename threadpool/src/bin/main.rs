@@ -1,5 +1,5 @@
-// My, very naive, implementation of using a threadpool to share work in parallel
-// Uses the threadpool in lib.rs (from https://www.youtube.com/watch?v=2mwwYbBRJSo)
+// My, very naive, implementation of using a thread-pool to share work in parallel
+// Uses the thread-pool in lib.rs (from https://www.youtube.com/watch?v=2mwwYbBRJSo)
 // Finds sum(sine(1), sine(2), sine(3) ... sine(n)), where n = 50000000
 
 extern crate num_cpus;
