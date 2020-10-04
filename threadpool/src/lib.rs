@@ -22,9 +22,7 @@ impl ThreadPool {
                     Ok(work) => work,
                     Err(_) => break,
                 };
-                // println!("start");
                 work();
-                // println!("finish");
             });
         _handles.push(handle);
         }
@@ -32,7 +30,8 @@ impl ThreadPool {
         Self { _handles, tx }
     }
 
-    // We need to use a generic type that implements a closure trait, like 'Fn()'
+    // We need to use a generic type that implements a closure trait, like 'Fn()',
+    // and we need it to be mutable, hence `FnMut()`.
     pub fn execute<T: FnMut() + Send + 'static>(&self, work: T) {
         self.tx.send(Box::new(work)).unwrap();
     }
@@ -44,9 +43,7 @@ mod tests {
     #[test]
     fn it_works() {
         use std::sync::atomic::{AtomicU32, Ordering};
-        let n = AtomicU32::new(0);
-        let nref = Arc::new(n);
-        // 1 line version of above 2 lines: let nref = Arc::new(AtomicU32::new(0));
+        let nref = Arc::new(AtomicU32::new(0));
 
         let pool = ThreadPool::new(10);
         let clone = nref.clone();
