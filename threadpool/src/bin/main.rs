@@ -27,7 +27,7 @@ fn main() {
         let thread_counter = Arc::new(AtomicU32::new(0));
         let thread_counter_clone = thread_counter.clone();
         let completed_counter = Arc::new(AtomicU32::new(0));
-        let completed_clone = completed_counter.clone();
+        let completed_counter_clone = completed_counter.clone();
 
         let sum: Arc<Mutex<f64>> = Arc::new(Mutex::new(0.0));
         let sum_clone = sum.clone();
@@ -54,7 +54,7 @@ fn main() {
 
             let mut sum = sum_clone.lock().unwrap();
             *sum += result;
-            completed_clone.fetch_add(1, Ordering::SeqCst);
+            completed_counter_clone.fetch_add(1, Ordering::SeqCst);
         };
 
         // Now start the threads, passing in the closure containing the work for each.
