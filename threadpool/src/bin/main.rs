@@ -57,14 +57,14 @@ fn main() {
             completed_counter_clone.fetch_add(1, Ordering::SeqCst);
         };
 
-        // Now start the threads, passing in the closure containing the work for each.
+        // Start the threads, passing in the closure containing the work for each.
         for _ in 0..num_threads {
             pool.execute(foo.clone());
         }
 
         let mut completed_threads_count = completed_counter.load(Ordering::SeqCst);
 
-        // Loop in main thread while all spawned threads not completed.
+        // Loop until every spawned thread reports completion of allocated task.
         while completed_threads_count < num_threads {
             completed_threads_count = completed_counter.load(Ordering::SeqCst);
         }
