@@ -14,12 +14,13 @@ fn main() {
     // count logical cores this process could try to use
     let num_cores = num_cpus::get();
     println!("number of logical cores available: {}\n", num_cores);
-    println!("Find sum(sine(1), sine(2), sine(3) ... sine(n)), where n = 50000000");
+    println!("Find sum(sine(1), sine(2), sine(3) ... sine(n)), where n = 50000000\n");
 
   loop {
       let thread_counter = Arc::new(AtomicU32::new(0));
       let counter_clone = thread_counter.clone();
 
+      // This var seems unnecessary. ?Find way to use counter_clone for this?
       let completed_counter = Arc::new(AtomicU32::new(0));
       let completed_clone = completed_counter.clone();
 
@@ -92,14 +93,19 @@ fn get_input() -> String {
 fn get_num_threads() -> u32 {
     let mut i: u32 = 127;
 
-    while i > 12 || i == 0 {
+    while i > 12 {
         let input = get_input();
         // println!("You typed: {}", input);
 
         i = match input.parse::<u32>() {
-            Ok(i) => i,
+            Ok(i) => if i > 0 && i < 13 {
+              i
+            } else {
+              println!("\nERROR! Try again");
+              127
+            }
             Err(_) => {
-                println!("Error! Try again");
+                println!("\nERROR! Try again");
                 127
             }
         };
