@@ -24,11 +24,14 @@ fn main() {
 
         let start_time = Instant::now();
 
+        // Counter used to divide work between threads.
         let thread_counter = Arc::new(AtomicU32::new(0));
         let thread_counter_clone = thread_counter.clone();
+        // Counter used to register thread completion(s).
         let completed_counter = Arc::new(AtomicU32::new(0));
         let completed_counter_clone = completed_counter.clone();
 
+        // Mutex 64 bit float for threads to add result(s) to.
         let sum: Arc<Mutex<f64>> = Arc::new(Mutex::new(0.0));
         let sum_clone = sum.clone();
 
@@ -37,17 +40,17 @@ fn main() {
 
         // Closure containing the work to be done in each thread.
         let foo = move || {
-            let operation_block = thread_counter_clone.fetch_add(1, Ordering::SeqCst);
+            let work_block = thread_counter_clone.fetch_add(1, Ordering::SeqCst);
             let default_iters_per_thread = 50000000 / num_threads;
-            let start = default_iters_per_thread * operation_block;
+            let start = default_iters_per_thread * work_block;
             let mut result: f64 = 0.0;
 
-            if operation_block == num_threads - 1 {
+            if work_block == num_threads - 1 {
                 for i in start + 1..50000001 {
                     result = result + (i as f64).sin();
                 }
             } else {
-                for i in start + 1..(default_iters_per_thread * (operation_block + 1)) + 1 {
+                for i in start + 1..(default_iters_per_thread * (work_block + 1)) + 1 {
                     result = result + (i as f64).sin();
                 }
             }
