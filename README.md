@@ -25,6 +25,8 @@ Rust studies and info.
 * [Rust Video Tutorials Series; last 3 videos = 3 hrs of 3D Graphics in browser](https://www.youtube.com/playlist?list=PLLqEtX6ql2EyPAZ1M2_C0GgVd4A-_L4_5)  
 *  [Module basics](https://fasterthanli.me/articles/rust-modules-vs-files)  
 * [Strings](https://www.ameyalokare.com/rust/2017/10/12/rust-str-vs-String.html)  
+* [Ryan Levick's YouTube Channel](https://www.youtube.com/channel/UCpeX4D-ArTrsqvhLapAHprQ)  
+* [Jon Gjengset's YouTube Channel](https://www.youtube.com/c/JonGjengset/videos)  
 
 
 ### Useful commands:
