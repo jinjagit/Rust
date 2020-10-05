@@ -40,17 +40,17 @@ fn main() {
 
         // Closure containing the work to be done in each thread.
         let foo = move || {
-            let work_block = thread_counter_clone.fetch_add(1, Ordering::SeqCst);
-            let default_iters_per_thread = 50000000 / num_threads;
-            let start = default_iters_per_thread * work_block;
+            let task_index = thread_counter_clone.fetch_add(1, Ordering::SeqCst);
+            let default_task_size = 50000000 / num_threads;
+            let start = default_task_size * task_index;
             let mut result: f64 = 0.0;
 
-            if work_block == num_threads - 1 {
+            if task_index == num_threads - 1 {
                 for i in start + 1..50000001 {
                     result = result + (i as f64).sin();
                 }
             } else {
-                for i in start + 1..(default_iters_per_thread * (work_block + 1)) + 1 {
+                for i in start + 1..(default_task_size * (task_index + 1)) + 1 {
                     result = result + (i as f64).sin();
                 }
             }
