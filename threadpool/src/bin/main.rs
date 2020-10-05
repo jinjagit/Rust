@@ -47,11 +47,11 @@ fn main() {
 
             if task_index == num_threads - 1 {
                 for i in start + 1..50000001 {
-                    result = result + (i as f64).sin();
+                    result += (i as f64).sin();
                 }
             } else {
                 for i in start + 1..(default_task_size * (task_index + 1)) + 1 {
-                    result = result + (i as f64).sin();
+                    result += (i as f64).sin();
                 }
             }
 
