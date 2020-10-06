@@ -18,9 +18,9 @@ fn main() {
         println!("Eggs can also be good without {}", a);
     }
 
-    if let _ = 5 {
-        println!("Irrefutable patterns are always true");
-    }
+    // if let _ = 5 {
+    //     println!("Irrefutable patterns are always true");
+    // }
 
     
     let x: u8 = 3;
