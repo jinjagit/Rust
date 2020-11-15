@@ -22,5 +22,5 @@ fn main() {
 
 // Change the value in the struct. Note how we pass an &mut Struct and don't return anything :-)
 fn change(v: &mut Value) {
-    v.value = 3;
+    v.value = v.value + 3;
 }
