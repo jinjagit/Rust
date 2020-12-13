@@ -8,17 +8,10 @@ use std::{env, process, thread, time};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-
-    // let args_n: usize = args.iter().count();
-
-    check_args(&args);
-
-    let filename: &str = &args[1];
-    let phrase: &str = &args[2];
+    let (filename, phrases): (&str, Vec<&str>) = parse_args(&args);
+    let mut lines: usize = 0;
 
     confirm_delete(filename);
-
-    let mut lines: usize = linecount(filename);
 
     loop {
         let line_count: usize = linecount(filename);
@@ -28,7 +21,7 @@ fn main() {
             print_deletion_notice(filename);
             lines = 0;
         } else if line_count > lines {
-            run_search(filename, lines, line_count, phrase);
+            run_search(filename, lines, line_count, &phrases);
             lines = line_count;
         }
 
@@ -36,7 +29,32 @@ fn main() {
     }
 }
 
-fn run_search(filename: &str, lines: usize, line_count: usize, phrase: &str) {
+fn parse_args(args: &Vec<String>) -> (&str, Vec<&str>) {
+    if args[1] == "help" {
+        print_help();
+        process::exit(1);
+    } else if args.iter().count() == 1 {
+        print!("{}", "Error! No arguments found.".red());
+        print!(" Type 'tailit help' for help on usage.\n");
+        process::exit(1);
+    } else if args.iter().count() == 2 {
+        print!("{}", "Error! Insufficient arguments found.".red());
+        print!(" Type 'tailit help' for help on usage.\n");
+        process::exit(1);
+    }
+
+    let num_args = args.iter().count();
+    let filename: &str = &args[1];
+    let mut phrases: Vec<&str> = vec![];
+
+    for i in 2..num_args {
+        phrases.push(&args[i]);
+    }
+
+    (filename, phrases)
+}
+
+fn run_search(filename: &str, lines: usize, line_count: usize, phrases: &Vec<&str>) {
     let num_newlines: usize = line_count - lines;
     let newlines: Vec<String> = get_newlines(num_newlines, filename);
 
@@ -54,20 +72,23 @@ fn run_search(filename: &str, lines: usize, line_count: usize, phrase: &str) {
             );
         }
 
-        if raw_line.contains(phrase) {
-            let line = raw_line.replace(phrase, &("*#~".to_owned() + phrase + "*#~"));
-            let split: Vec<&str> = line.split("*#~").collect();
+        for i in 0..phrases.iter().count() {
+            if raw_line.contains(phrases[i]) {
+                let line = raw_line.replace(phrases[i], &("*#~".to_owned() + phrases[i] + "*#~"));
+                let split: Vec<&str> = line.split("*#~").collect();
 
-            for p in split {
-                if p == phrase {
-                    print!("{}", p.bright_blue().bold());
-                } else {
-                    print!("{}", p);
+                for p in split {
+                    if p == phrases[i] {
+                        print!("{}", p.bright_blue().bold());
+                    } else {
+                        print!("{}", p);
+                    }
                 }
-            }
 
-            print!("\n");
+                print!("\n");
+            }
         }
+
     }
 }
 
@@ -97,19 +118,6 @@ fn get_newlines(num_newlines: usize, filename: &str) -> Vec<String> {
     }
 
     newlines
-}
-
-fn check_args(args: &Vec<String>) {
-    if args.iter().count() == 1 {
-        print!("{}", "Error! No arguments found.".red());
-        print!(" Type 'tailit help' for help on usage.\n");
-        process::exit(1);
-    } else {
-        if args[1] == "help" {
-            print_help();
-            process::exit(1);
-        }
-    }
 }
 
 fn confirm_delete(filename: &str) {
