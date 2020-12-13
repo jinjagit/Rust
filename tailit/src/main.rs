@@ -28,43 +28,46 @@ fn main() {
             print_deletion_notice(filename);
             lines = 0;
         } else if line_count > lines {
-            let num_newlines: usize = line_count - lines;
-            let newlines: Vec<String> = get_newlines(num_newlines, filename);
-
-            // print lines from newline vec in reverse order == order in original file
-            for i in 0..num_newlines {
-                let raw_line = &newlines[num_newlines - i - 1];
-
-                // TODO: Get search-phrase for starting divider from option arg (default = nil)
-                if raw_line.contains("Started") {
-                    print!(
-                        "\n{}{}{}\n\n",
-                        "---------------------------------- ".bright_yellow(),
-                        filename.bright_yellow(),
-                        " ----------------------------------".bright_yellow()
-                    );
-                }
-
-                if raw_line.contains(phrase) {
-                    let line = raw_line.replace(phrase, &("*#~".to_owned() + phrase + "*#~"));
-                    let split: Vec<&str> = line.split("*#~").collect();
-
-                    for p in split {
-                        if p == phrase {
-                            print!("{}", p.bright_blue().bold());
-                        } else {
-                            print!("{}", p);
-                        }
-                    }
-
-                    print!("\n");
-                }
-            }
-
+            run_search(filename, lines, line_count, phrase);
             lines = line_count;
         }
 
         thread::sleep(time::Duration::from_secs(1));
+    }
+}
+
+fn run_search(filename: &str, lines: usize, line_count: usize, phrase: &str) {
+    let num_newlines: usize = line_count - lines;
+    let newlines: Vec<String> = get_newlines(num_newlines, filename);
+
+    // print lines from newline vec in reverse order == order in original file
+    for i in 0..num_newlines {
+        let raw_line = &newlines[num_newlines - i - 1];
+
+        // TODO: Get search-phrase for starting divider from option arg (default = nil)
+        if raw_line.contains("Started") {
+            print!(
+                "\n{}{}{}\n\n",
+                "---------------------------------- ".bright_yellow(),
+                filename.bright_yellow(),
+                " ----------------------------------".bright_yellow()
+            );
+        }
+
+        if raw_line.contains(phrase) {
+            let line = raw_line.replace(phrase, &("*#~".to_owned() + phrase + "*#~"));
+            let split: Vec<&str> = line.split("*#~").collect();
+
+            for p in split {
+                if p == phrase {
+                    print!("{}", p.bright_blue().bold());
+                } else {
+                    print!("{}", p);
+                }
+            }
+
+            print!("\n");
+        }
     }
 }
 
@@ -163,10 +166,9 @@ fn print_deletion_notice(filename: &str) {
             .bold()
     );
     println!(
-        "{}{}{}",
+        "{}{}",
         "  Warning! Deleted contents of ".bright_red(),
-        filename.bright_blue(),
-        ".".bright_red()
+        filename.bright_blue()
     );
     println!(
         "{}",
@@ -204,9 +206,8 @@ fn print_help() {
 
 // Todo:
 
-// Get word from args
-// Get words from args
-// Get words from 'example|another' type args
+// Get multiple search phrases from args
+// Get multiple search phrases from 'example|another' type args
 // Get options from args (in form -example)
 // Options:
 //   color (a number) - default is bright cyan, use color value 0 for default terminal text color.
@@ -215,4 +216,3 @@ fn print_help() {
 //   lines after (if exist)
 // Add details, examples and limitations to help
 // Get search-phrase for starting divider from option arg (default = nil)
-// Automatically delete file contents when num lines > 20,000 && output advice to rerun last op
