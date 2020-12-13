@@ -53,7 +53,7 @@ fn parse_args(args: &Vec<String>) -> (&str, Vec<(&str, &str)>) {
         }
     }
 
-    println!("{:?}", phrases);
+    // println!("{:?}", phrases); // DEBUG
 
     (filename, phrases)
 }
@@ -93,47 +93,6 @@ fn run_search(filename: &str, lines: usize, line_count: usize, phrases: &Vec<(&s
                 print!("\n");
             }
         }
-
-    }
-}
-
-fn print_highlighted_phrase(phrase: &str, color: &str) {
-    match color {
-        "0" => print!("{}", phrase.normal()),
-        "1" => print!("{}", phrase.black()),
-        "2" => print!("{}", phrase.red()),
-        "3" => print!("{}", phrase.green()),
-        "4" => print!("{}", phrase.yellow()),
-        "5" => print!("{}", phrase.blue()),
-        "6" => print!("{}", phrase.magenta()),
-        "7" => print!("{}", phrase.cyan()),
-        "8" => print!("{}", phrase.white()),
-        "9" => print!("{}", phrase.bright_black()),
-        "10" => print!("{}", phrase.bright_red()),
-        "11" => print!("{}", phrase.bright_green()),
-        "12" => print!("{}", phrase.bright_yellow()),
-        "13" => print!("{}", phrase.bright_blue()),
-        "14" => print!("{}", phrase.bright_magenta()),
-        "15" => print!("{}", phrase.bright_cyan()),
-        "16" => print!("{}", phrase.bright_white()),
-        "0b" => print!("{}", phrase.normal().bold()),
-        "1b" => print!("{}", phrase.black().bold()),
-        "2b" => print!("{}", phrase.red().bold()),
-        "3b" => print!("{}", phrase.green().bold()),
-        "4b" => print!("{}", phrase.yellow().bold()),
-        "5b" => print!("{}", phrase.blue().bold()),
-        "6b" => print!("{}", phrase.magenta().bold()),
-        "7b" => print!("{}", phrase.cyan().bold()),
-        "8b" => print!("{}", phrase.white().bold()),
-        "9b" => print!("{}", phrase.bright_black().bold()),
-        "10b" => print!("{}", phrase.bright_red().bold()),
-        "11b" => print!("{}", phrase.bright_green().bold()),
-        "12b" => print!("{}", phrase.bright_yellow().bold()),
-        "13b" => print!("{}", phrase.bright_blue().bold()),
-        "14b" => print!("{}", phrase.bright_magenta().bold()),
-        "15b" => print!("{}", phrase.bright_cyan().bold()),
-        "16b" => print!("{}", phrase.bright_white().bold()),
-        _ => print!("{}", phrase.normal()),
     }
 }
 
@@ -257,6 +216,46 @@ fn print_help() {
     println!("   16. {}", "bright_white".bright_white());
 }
 
+fn print_highlighted_phrase(phrase: &str, color: &str) {
+    match color {
+        "0" => print!("{}", phrase.normal()),
+        "1" => print!("{}", phrase.black()),
+        "2" => print!("{}", phrase.red()),
+        "3" => print!("{}", phrase.green()),
+        "4" => print!("{}", phrase.yellow()),
+        "5" => print!("{}", phrase.blue()),
+        "6" => print!("{}", phrase.magenta()),
+        "7" => print!("{}", phrase.cyan()),
+        "8" => print!("{}", phrase.white()),
+        "9" => print!("{}", phrase.bright_black()),
+        "10" => print!("{}", phrase.bright_red()),
+        "11" => print!("{}", phrase.bright_green()),
+        "12" => print!("{}", phrase.bright_yellow()),
+        "13" => print!("{}", phrase.bright_blue()),
+        "14" => print!("{}", phrase.bright_magenta()),
+        "15" => print!("{}", phrase.bright_cyan()),
+        "16" => print!("{}", phrase.bright_white()),
+        "0b" => print!("{}", phrase.normal().bold()),
+        "1b" => print!("{}", phrase.black().bold()),
+        "2b" => print!("{}", phrase.red().bold()),
+        "3b" => print!("{}", phrase.green().bold()),
+        "4b" => print!("{}", phrase.yellow().bold()),
+        "5b" => print!("{}", phrase.blue().bold()),
+        "6b" => print!("{}", phrase.magenta().bold()),
+        "7b" => print!("{}", phrase.cyan().bold()),
+        "8b" => print!("{}", phrase.white().bold()),
+        "9b" => print!("{}", phrase.bright_black().bold()),
+        "10b" => print!("{}", phrase.bright_red().bold()),
+        "11b" => print!("{}", phrase.bright_green().bold()),
+        "12b" => print!("{}", phrase.bright_yellow().bold()),
+        "13b" => print!("{}", phrase.bright_blue().bold()),
+        "14b" => print!("{}", phrase.bright_magenta().bold()),
+        "15b" => print!("{}", phrase.bright_cyan().bold()),
+        "16b" => print!("{}", phrase.bright_white().bold()),
+        _ => print!("{}", phrase.normal()),
+    }
+}
+
 // Todo:
 
 // Add thorough arguments syntax checking, etc.
@@ -270,3 +269,7 @@ fn print_help() {
 //   lines after (if exist)
 // Add details, examples and limitations to help
 // Get search-phrase for starting divider from option arg (default = nil)
+
+// Example usage:
+
+// $ tailit development.log Started 11b Completed 11b Rendered 15b Parameters 14b ResultsController 13b
