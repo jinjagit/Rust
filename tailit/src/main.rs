@@ -2,6 +2,7 @@ use colored::*;
 use linecount::count_lines;
 use rev_lines::RevLines;
 use std::fs::File;
+use std::io;
 use std::io::BufReader;
 use std::{env, process, thread, time};
 
@@ -101,17 +102,41 @@ fn check_args(args: &Vec<String>) {
 }
 
 fn delete_file_contents(filename: &str) {
-    let result = delete_contents(filename);
-    match result {
-        Ok(_r) => println!("Deleted file contents. Now watching file..."),
-        Err(e) => println!("error deleting file contents: {:?}", e),
+    println!(
+        "{}{}{}",
+        "Warning! About to delete contents of ".bright_yellow(),
+        filename.bright_blue(),
+        ". Continue? (y/n)".bright_yellow()
+    );
+
+    let input = get_input();
+    
+    if input == "y" || input == "Y" {
+        let result = delete_contents(filename);
+        match result {
+            Ok(_r) => println!("{}{}{}", "Deleted file contents. Now watching file ", filename.bright_blue(), "..."),
+            Err(e) => println!("error deleting file contents: {:?}", e),
+        }
+    } else {
+        process::exit(1);
     }
+
+    
 }
 
 fn delete_contents(filename: &str) -> std::io::Result<()> {
     let f = File::create(filename)?;
     f.set_len(0)?;
     Ok(())
+}
+
+fn get_input() -> String{
+    let mut input = String::new();
+    match io::stdin().read_line(&mut input) {
+        Ok(_goes_into_input_above) => {},
+        Err(_no_updates_is_fine) => {},
+    }
+    input.trim().to_string()
 }
 
 fn print_help() {
