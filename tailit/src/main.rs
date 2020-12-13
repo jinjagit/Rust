@@ -1,9 +1,9 @@
+use colored::*;
 use linecount::count_lines;
 use rev_lines::RevLines;
 use std::fs::File;
 use std::io::BufReader;
-use std::{thread, time, env, process};
-use colored::*;
+use std::{env, process, thread, time};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -14,6 +14,9 @@ fn main() {
 
     let filename: &str = &args[1];
     let phrase: &str = &args[2];
+
+    delete_file_contents(filename);
+
     let mut lines: usize = linecount(filename);
 
     loop {
@@ -26,6 +29,17 @@ fn main() {
             // print lines from newline vec in reverse order == order in original file
             for i in 0..num_newlines {
                 let raw_line = &newlines[num_newlines - i - 1];
+
+                // TODO: Get search-phrase for starting divider from option arg (default = nil)
+                if raw_line.contains("Started") {
+                    print!(
+                        "\n{}{}{}\n\n",
+                        "---------------------------------- ".bright_yellow(),
+                        filename.bright_yellow(),
+                        " ----------------------------------".bright_yellow()
+                    );
+                }
+
                 if raw_line.contains(phrase) {
                     let line = raw_line.replace(phrase, &("*#~".to_owned() + phrase + "*#~"));
                     let split: Vec<&str> = line.split("*#~").collect();
@@ -35,11 +49,11 @@ fn main() {
                             print!("{}", p.bright_blue().bold());
                         } else {
                             print!("{}", p);
-                        }     
+                        }
                     }
-                    
+
                     print!("\n");
-                }   
+                }
             }
 
             lines = line_count;
@@ -53,6 +67,7 @@ fn linecount(filename: &str) -> usize {
     count_lines(File::open(filename).unwrap()).unwrap()
 }
 
+// Return vec of newlines
 fn get_newlines(num_newlines: usize, filename: &str) -> Vec<String> {
     let file = File::open(filename).unwrap();
     let rev_lines = RevLines::new(BufReader::new(file)).unwrap();
@@ -83,6 +98,20 @@ fn check_args(args: &Vec<String>) {
             process::exit(1);
         }
     }
+}
+
+fn delete_file_contents(filename: &str) {
+    let result = delete_contents(filename);
+    match result {
+        Ok(_r) => println!("Deleted file contents. Now watching file..."),
+        Err(e) => println!("error deleting file contents: {:?}", e),
+    }
+}
+
+fn delete_contents(filename: &str) -> std::io::Result<()> {
+    let f = File::create(filename)?;
+    f.set_len(0)?;
+    Ok(())
 }
 
 fn print_help() {
@@ -118,5 +147,5 @@ fn print_help() {
 //   lines before (if exist)
 //   lines after (if exist)
 // Add details, examples and limitations to help
-// ? Use codegen to generate code to style word(s) from option(s) args?
-//   https://docs.rs/codegen/0.1.3/codegen/
+// Get search-phrase for starting divider from option arg (default = nil)
+// Automatically delete file contents when num lines > 10,000 && inactive for > 10 secs

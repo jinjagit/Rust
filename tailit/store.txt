@@ -3,8 +3,3 @@ another line
 Rendered a line
 A Rendered line
 A line Rendered
-a line
-another line
-Rendered a line
-A Rendered line
-A line Rendered
