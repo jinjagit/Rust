@@ -1,36 +1,7 @@
 this is line 1
-a line
-a line with Rendered
-a line
-a line with Rendered
-a line
-a line with Rendered
 another line
-a line with Rendered
-another line
-a line with Rendered
-another line
-a line with Rendered
-another line
-Rendered a line
 a Rendered line
 another line
 a line with Rendered
 another line
-Rendered a line
-a Rendered line
-another line
-a line with Rendered
-another line
-Rendered a line
-a Rendered line
-another line
-a line with Rendered
-another line
-Rendered a line
-a Rendered line
-another line
-a line with Rendered
-another line
-Rendered a line
-a Rendered line
+Rendered a line 
