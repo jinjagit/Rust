@@ -16,14 +16,18 @@ fn main() {
     let filename: &str = &args[1];
     let phrase: &str = &args[2];
 
-    delete_file_contents(filename);
+    confirm_delete(filename);
 
     let mut lines: usize = linecount(filename);
 
     loop {
         let line_count: usize = linecount(filename);
 
-        if line_count > lines {
+        if line_count > 20000 {
+            delete_file_contents(filename);
+            print_deletion_notice(filename);
+            lines = 0;
+        } else if line_count > lines {
             let num_newlines: usize = line_count - lines;
             let newlines: Vec<String> = get_newlines(num_newlines, filename);
 
@@ -69,6 +73,10 @@ fn linecount(filename: &str) -> usize {
 }
 
 // Return vec of newlines
+// TODO: Return some extra preceeding lines too, to enable printing of any preceeding lines
+// specified by user (since we count line numbers every second to detect changes, but process being
+// logged may last longer than the period considered; the last second or less - e.g server logs for
+// a page load)
 fn get_newlines(num_newlines: usize, filename: &str) -> Vec<String> {
     let file = File::open(filename).unwrap();
     let rev_lines = RevLines::new(BufReader::new(file)).unwrap();
@@ -101,7 +109,7 @@ fn check_args(args: &Vec<String>) {
     }
 }
 
-fn delete_file_contents(filename: &str) {
+fn confirm_delete(filename: &str) {
     println!(
         "{}{}{}",
         "Warning! About to delete contents of ".bright_yellow(),
@@ -110,18 +118,26 @@ fn delete_file_contents(filename: &str) {
     );
 
     let input = get_input();
-    
+
     if input == "y" || input == "Y" {
-        let result = delete_contents(filename);
-        match result {
-            Ok(_r) => println!("{}{}{}", "Deleted file contents. Now watching file ", filename.bright_blue(), "..."),
-            Err(e) => println!("error deleting file contents: {:?}", e),
-        }
+        delete_file_contents(filename);
+        println!(
+            "{}{}{}",
+            "Deleted file contents. Now watching file ",
+            filename.bright_blue(),
+            "..."
+        );
     } else {
         process::exit(1);
     }
+}
 
-    
+fn delete_file_contents(filename: &str) {
+    let result = delete_contents(filename);
+    match result {
+        Ok(_) => (),
+        Err(e) => println!("error deleting file contents: {:?}", e),
+    }
 }
 
 fn delete_contents(filename: &str) -> std::io::Result<()> {
@@ -130,17 +146,43 @@ fn delete_contents(filename: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-fn get_input() -> String{
+fn get_input() -> String {
     let mut input = String::new();
     match io::stdin().read_line(&mut input) {
-        Ok(_goes_into_input_above) => {},
-        Err(_no_updates_is_fine) => {},
+        Ok(_goes_into_input_above) => {}
+        Err(_no_updates_is_fine) => {}
     }
     input.trim().to_string()
 }
 
+fn print_deletion_notice(filename: &str) {
+    println!(
+        "\n\n{}",
+        "========================================================="
+            .bright_red()
+            .bold()
+    );
+    println!(
+        "{}{}{}",
+        "  Warning! Deleted contents of ".bright_red(),
+        filename.bright_blue(),
+        ".".bright_red()
+    );
+    println!(
+        "{}",
+        "  Re-run last operation to ensure tail log is complete."
+    );
+    println!(
+        "{}\n\n",
+        "========================================================="
+            .bright_red()
+            .bold()
+    );
+}
+
 fn print_help() {
     println!("Help - How to use tailit:\n");
+    println!("Note: Bright and non-bright colors may look identical on some terminals.\n");
     println!("16 basic colors:");
     print!("  1. {}", "black".black());
     print!("          2. {}", "red".red());
@@ -173,4 +215,4 @@ fn print_help() {
 //   lines after (if exist)
 // Add details, examples and limitations to help
 // Get search-phrase for starting divider from option arg (default = nil)
-// Automatically delete file contents when num lines > 10,000 && inactive for > 10 secs
+// Automatically delete file contents when num lines > 20,000 && output advice to rerun last op
