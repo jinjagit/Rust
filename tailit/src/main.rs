@@ -8,7 +8,7 @@ use std::{env, process, thread, time};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let (filename, phrases): (&str, Vec<&str>) = parse_args(&args);
+    let (filename, phrases): (&str, Vec<(&str, &str)>) = parse_args(&args);
     let mut lines: usize = 0;
 
     confirm_delete(filename);
@@ -29,7 +29,7 @@ fn main() {
     }
 }
 
-fn parse_args(args: &Vec<String>) -> (&str, Vec<&str>) {
+fn parse_args(args: &Vec<String>) -> (&str, Vec<(&str, &str)>) {
     if args[1] == "help" {
         print_help();
         process::exit(1);
@@ -45,16 +45,20 @@ fn parse_args(args: &Vec<String>) -> (&str, Vec<&str>) {
 
     let num_args = args.iter().count();
     let filename: &str = &args[1];
-    let mut phrases: Vec<&str> = vec![];
+    let mut phrases: Vec<(&str, &str)> = vec![];
 
     for i in 2..num_args {
-        phrases.push(&args[i]);
+        if i % 2 == 0 {
+            phrases.push((&args[i], &args[i + 1]));
+        }
     }
+
+    println!("{:?}", phrases);
 
     (filename, phrases)
 }
 
-fn run_search(filename: &str, lines: usize, line_count: usize, phrases: &Vec<&str>) {
+fn run_search(filename: &str, lines: usize, line_count: usize, phrases: &Vec<(&str, &str)>) {
     let num_newlines: usize = line_count - lines;
     let newlines: Vec<String> = get_newlines(num_newlines, filename);
 
@@ -73,13 +77,14 @@ fn run_search(filename: &str, lines: usize, line_count: usize, phrases: &Vec<&st
         }
 
         for i in 0..phrases.iter().count() {
-            if raw_line.contains(phrases[i]) {
-                let line = raw_line.replace(phrases[i], &("*#~".to_owned() + phrases[i] + "*#~"));
+            let (phrase, color) = phrases[i];
+            if raw_line.contains(phrase) {
+                let line = raw_line.replace(phrase, &("*#~".to_owned() + phrase + "*#~"));
                 let split: Vec<&str> = line.split("*#~").collect();
 
                 for p in split {
-                    if p == phrases[i] {
-                        print!("{}", p.bright_blue().bold());
+                    if p == phrase {
+                        print_highlighted_phrase(phrase, color);
                     } else {
                         print!("{}", p);
                     }
@@ -89,6 +94,14 @@ fn run_search(filename: &str, lines: usize, line_count: usize, phrases: &Vec<&st
             }
         }
 
+    }
+}
+
+fn print_highlighted_phrase(phrase: &str, color: &str) {
+    if color == "-13" {
+        print!("{}", phrase.bright_blue().bold());
+    } else if color == "-15" {
+        print!("{}", phrase.bright_cyan().bold());
     }
 }
 
@@ -216,6 +229,7 @@ fn print_help() {
 
 // Get multiple search phrases from args
 // Get multiple search phrases from 'example|another' type args
+//     -> issue: single quotes not included in &str from args
 // Get options from args (in form -example)
 // Options:
 //   color (a number) - default is bright cyan, use color value 0 for default terminal text color.
