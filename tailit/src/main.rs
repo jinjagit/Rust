@@ -2,7 +2,7 @@ use colored::*;
 use linecount::count_lines;
 use rev_lines::RevLines;
 use std::fs::File;
-use std::io;
+//use std::io;
 use std::io::BufReader;
 use std::{env, process, thread, time};
 
@@ -11,7 +11,8 @@ fn main() {
     let (filename, phrases): (&str, Vec<(&str, &str)>) = parse_args(&args);
     let mut lines: usize = 0;
 
-    confirm_delete(filename);
+    //confirm_delete(filename);
+    delete_file_contents(filename);
 
     loop {
         let line_count: usize = linecount(filename);
@@ -70,9 +71,9 @@ fn run_search(filename: &str, lines: usize, line_count: usize, phrases: &Vec<(&s
         if raw_line.contains("Started") {
             print!(
                 "\n{}{}{}\n\n",
-                "---------------------------------- ".bright_yellow(),
-                filename.bright_yellow(),
-                " ----------------------------------".bright_yellow()
+                "---------------------------------- ".bright_blue(),
+                filename.bright_blue(),
+                " ----------------------------------".bright_blue()
             );
         }
 
@@ -124,28 +125,28 @@ fn get_newlines(num_newlines: usize, filename: &str) -> Vec<String> {
     newlines
 }
 
-fn confirm_delete(filename: &str) {
-    println!(
-        "{}{}{}",
-        "Warning! About to delete contents of ".bright_yellow(),
-        filename.bright_blue(),
-        ". Continue? (y/n)".bright_yellow()
-    );
+// fn confirm_delete(filename: &str) {
+//     println!(
+//         "{}{}{}",
+//         "Warning! About to delete contents of ".bright_yellow(),
+//         filename.bright_blue(),
+//         ". Continue? (y/n)".bright_yellow()
+//     );
 
-    let input = get_input();
+//     let input = get_input();
 
-    if input == "y" || input == "Y" {
-        delete_file_contents(filename);
-        println!(
-            "{}{}{}",
-            "Deleted file contents. Now watching file ",
-            filename.bright_blue(),
-            "..."
-        );
-    } else {
-        process::exit(1);
-    }
-}
+//     if input == "y" || input == "Y" {
+//         delete_file_contents(filename);
+//         println!(
+//             "{}{}{}",
+//             "Deleted file contents. Now watching file ",
+//             filename.bright_blue(),
+//             "..."
+//         );
+//     } else {
+//         process::exit(1);
+//     }
+// }
 
 fn delete_file_contents(filename: &str) {
     let result = delete_contents(filename);
@@ -161,14 +162,14 @@ fn delete_contents(filename: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-fn get_input() -> String {
-    let mut input = String::new();
-    match io::stdin().read_line(&mut input) {
-        Ok(_goes_into_input_above) => {}
-        Err(_no_updates_is_fine) => {}
-    }
-    input.trim().to_string()
-}
+// fn get_input() -> String {
+//     let mut input = String::new();
+//     match io::stdin().read_line(&mut input) {
+//         Ok(_goes_into_input_above) => {}
+//         Err(_no_updates_is_fine) => {}
+//     }
+//     input.trim().to_string()
+// }
 
 fn print_deletion_notice(filename: &str) {
     println!(
@@ -258,7 +259,9 @@ fn print_highlighted_phrase(phrase: &str, color: &str) {
 
 // Todo:
 
+// Make deletion promt off by default, but can toggle on with option
 // Add thorough arguments syntax checking, etc.
+// Add more colors: pink, orange, dark_green (better one-word name?), 
 // Get multiple search phrases from 'example|another' type args
 //     -> issue: single quotes not included in &str from args
 // Get options from args (in form -example)
@@ -269,7 +272,12 @@ fn print_highlighted_phrase(phrase: &str, color: &str) {
 //   lines after (if exist)
 // Add details, examples and limitations to help
 // Get search-phrase for starting divider from option arg (default = nil)
+// Is it possible to detect when file is opened / closed by other program? (If yes, this could useful!)
+//     https://docs.rs/notify/4.0.15/notify/
+// For args, see also: http://mattforni.github.io/rust/doc/args/ 
+
 
 // Example usage:
 
 // $ tailit development.log Started 11b Completed 11b Rendered 15b Parameters 14b ResultsController 13b
+// $ tailit development.log Started 11b Completed 11b Rendered 15b Parameters 14b ResultsController 13b INSERT 12b UPDATE 16b DELETE 10b
